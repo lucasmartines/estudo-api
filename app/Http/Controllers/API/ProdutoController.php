@@ -11,6 +11,8 @@ class ProdutoController extends Controller{
     }
     public function store(Request $req){
 
+        $req->validate($this->validation());
+
         $produto = $req->all();
         Produto::create($produto);
 
@@ -36,5 +38,13 @@ class ProdutoController extends Controller{
         $produto = Produto::find($id);
         $produto->delete();
         return ['msg'=>'Item deletado com sucesso'];
+    }
+
+    public function validation(){
+        return [
+            'nome'      =>'required|min:6',
+            'preco'     =>'required',
+            'descricao' => 'required|min:6'
+        ];
     }
 }
